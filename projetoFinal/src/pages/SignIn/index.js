@@ -1,4 +1,5 @@
 import React, {useState} from 'react';
+import {Platform} from 'react-native';
 
 import {Background, Container, Logo, AreaInput, Input,
 SubmitButton, SubmitText, SignUpLink, SignUpText} from './styles'
@@ -10,8 +11,8 @@ export default function SignIn(){
 
   return(
     <Background>
-      <Container>
-        <Logo />
+      <Container behavior={Platform.OS === 'ios' ? 'padding': ''} enabled>
+        <Logo source={require('../../assets/logo.png')}/>
 
         <AreaInput>
           <Input 
