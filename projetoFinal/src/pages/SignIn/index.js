@@ -4,7 +4,7 @@ import {Platform} from 'react-native';
 import {Background, Container, Logo, AreaInput, Input,
 SubmitButton, SubmitText, SignUpLink, SignUpText} from './styles'
 
-export default function SignIn(){
+export default function SignIn({navigation}){
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -39,7 +39,7 @@ export default function SignIn(){
           <SubmitText> Acessar </SubmitText>
         </SubmitButton>
 
-        <SignUpLink>
+        <SignUpLink onPress={() => navigation.navigate('SignUp')}>
           <SignUpText> Criar conta gratuita </SignUpText>
         </SignUpLink>
       </Container>
