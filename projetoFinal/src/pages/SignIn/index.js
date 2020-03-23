@@ -1,6 +1,8 @@
 import React, {useState} from 'react';
 import {Platform} from 'react-native';
 
+import firebase from '../../services/fibaseConnection'
+
 import {Background, Container, Logo, AreaInput, Input,
 SubmitButton, SubmitText, SignUpLink, SignUpText} from './styles'
 
@@ -8,6 +10,17 @@ export default function SignIn({navigation}){
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+
+  async function handleSubmit(){
+    if(email !== '' && password !== ''){
+      await firebase.auth().signInWithEmailAndPassword(email, password)
+        .catch((error) => {
+          alert(error.code);
+        })
+    }else{
+      alert('Usuário ou senha inválida.')
+    }
+  }
 
   return(
     <Background>
@@ -35,7 +48,7 @@ export default function SignIn({navigation}){
           />        
         </AreaInput>
 
-        <SubmitButton>
+        <SubmitButton onPress={() => handleSubmit()}>
           <SubmitText> Acessar </SubmitText>
         </SubmitButton>
 

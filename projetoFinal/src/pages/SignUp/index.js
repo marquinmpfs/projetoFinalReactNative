@@ -1,14 +1,43 @@
 import React, {useState} from 'react';
 import {Platform} from 'react-native';
+import firebase from '../../services/fibaseConnection'
 
-import {Background, Container, AreaInput, Input,
-SubmitButton, SubmitText, SingUpText, SingInButton, SingInText} from './styles'
+import {
+  Background, 
+  Container, 
+  AreaInput, 
+  Input,
+  SubmitButton, 
+  SubmitText, 
+  SingUpText, 
+  SingInButton, 
+  SingInText
+} from './styles'
 
 export default function SignUp({navigation}){
   
   const [nome, setNome] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+
+  firebase.auth().signOut();
+
+  async function handleSubmit(){
+    if(nome !== '' && email !== '' && password !== ''){
+      await firebase.auth().createUserWithEmailAndPassword(email, password)
+        .then(async () => {
+          let uid = firebase.auth().currentUser.uid;
+          await firebase.database().ref('users').child(uid).set({
+            saldo: 0
+          });
+        })
+        .catch((error) => {
+          alert(error.code)
+        });
+    }else{
+      alert("Dados inválidos...");
+    }
+  }
 
   return(
     <Background>
@@ -46,7 +75,7 @@ export default function SignUp({navigation}){
           />        
         </AreaInput>
 
-        <SubmitButton>
+        <SubmitButton onPress={() => handleSubmit()}>
           <SubmitText> Cadastrar </SubmitText>
         </SubmitButton>
 
