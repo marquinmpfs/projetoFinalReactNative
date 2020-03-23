@@ -27,6 +27,7 @@ const Routes = createAppContainer(
                     showLabel: false,
                     activeTintColor: '#FFF',
                     style: {
+                        borderTopColor: '#1B2C4C',
                         backgroundColor: '#1B2C4C'
                     }
                 }
