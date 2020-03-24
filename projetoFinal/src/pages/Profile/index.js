@@ -1,14 +1,53 @@
-import React from 'react';
-import { View,Text } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import AsyncStorage from '@react-native-community/async-storage';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 
-import Icon from 'react-native-vector-icons/MaterialIcons'
+import firebase from '../../services/fibaseConnection';
+
+import { Container, Title, Name, LogoutButton, LogoutText } from './styles';
 
 export default function Profile(){
-    return(
-        <View>
-            <Text>New Profile.</Text>
-        </View>
-    )
+    const [nome, setNome] = useState('');
+
+    useEffect(()=> {
+
+    async function loadName(){
+
+      const nomeStorage = await AsyncStorage.getItem('@nome');
+
+      if(nomeStorage){
+        setNome(nomeStorage);
+      }else{
+
+        let uid = firebase.auth().currentUser.uid;
+        await firebase.database().ref('users').child(uid)
+        .once('value').then((snapshot)=> {
+          setNome(snapshot.val().nome);
+        });
+        await AsyncStorage.setItem('@nome', nome);
+      }
+
+    }
+
+    loadName();
+
+  }, []);
+
+  async function handleLogout(){
+    await firebase.auth().signOut();
+    await AsyncStorage.removeItem('@nome');
+  }
+
+  return(
+    <Container>
+      <Title>Bem-vindo(a)</Title>
+      <Name> {nome} </Name>
+
+      <LogoutButton onPress={handleLogout}>
+        <LogoutText>Sair</LogoutText>
+      </LogoutButton>
+    </Container>
+  )
 }
 
 Profile.navigationOptions = {

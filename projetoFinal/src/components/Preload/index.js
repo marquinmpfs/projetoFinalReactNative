@@ -11,7 +11,7 @@ export default function PreLoad({navigation}){
 
         firebase.auth().onAuthStateChanged((user) => {
             if(user){
-                navigation.navigate('Dashboard');
+                navigation.navigate('Dashboard', { uid: user.uid });
             }else{
                 navigation.navigate({routeName: 'SignIn'});
             }

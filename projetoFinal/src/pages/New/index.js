@@ -14,6 +14,8 @@ export default function New({navigation}){
     const [tipo, setTipo] = useState('receita');
 
     function handleSubmit(){
+        Keyboard.dismiss();
+
         const valorNumerico = parseFloat(valor);
 
         if(isNaN(valorNumerico)){
@@ -23,7 +25,7 @@ export default function New({navigation}){
 
         Alert.alert(
             "Confirmar ação",
-            `Você informou que possui o tipo ${tipo} no valor de R$ ${valorNumerico}, deseja confirmar?`,
+            `Você informou que possui a ${tipo} no valor de R$ ${valorNumerico}, deseja confirmar?`,
             [
                 {
                     text: "Cancelar",
@@ -57,9 +59,7 @@ export default function New({navigation}){
 
             tipo === 'despesa' ? saldo -= parseFloat(valor) : saldo += parseFloat(valor);
 
-            user.set({
-                saldo: saldo
-            });
+            user.child('saldo').set(saldo);
         });
 
         setValor('');
