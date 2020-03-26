@@ -28,6 +28,7 @@ export default function SignUp({navigation}){
         .then(async () => {
           let uid = firebase.auth().currentUser.uid;
           await firebase.database().ref('users').child(uid).set({
+            nome,
             saldo: 0
           });
         })

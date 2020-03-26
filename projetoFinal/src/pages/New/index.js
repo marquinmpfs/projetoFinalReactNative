@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
-import { Keyboard, Picker, Alert } from 'react-native';
+import { Keyboard, Alert } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import Picker from '../../components/Picker';
 
 import firebase from '../../services/fibaseConnection';
 
-
-import { Container, Input, PickerItem, SubmitButton, SubmitText } from './styles';
+import { Container, Input, SubmitButton, SubmitText } from './styles';
 
 
 export default function New({navigation}){
@@ -78,13 +78,7 @@ export default function New({navigation}){
                 onSubmitEditing={() => Keyboard.dismiss()}
             />
 
-            <PickerItem
-                selectedValue={tipo}
-                onValueChange={ (itemValue, itemIndex) => setTipo(itemValue)}
-            >
-                <Picker.Item label="Receita" value="receita"/>
-                <Picker.Item label="Despesa" value="despesa"/>
-            </PickerItem>
+            <Picker onChange={setTipo}/>
 
             <SubmitButton onPress={ handleSubmit }>
                 <SubmitText>Registrar</SubmitText>
